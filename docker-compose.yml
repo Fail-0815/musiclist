@@ -1,0 +1,43 @@
+version: '3'
+services:
+  wishlist-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=wishlist
+    ports:
+      - '5432:5432'
+    volumes:
+      - /srv/db-data/:/var/lib/postgresql/data/
+      - ./server/migrations/2023-02-17-180640_wish_entry/up.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - wishlist-network
+  wishlist-api:
+    container_name: wishlist-api
+    build:
+      context: ./
+      dockerfile: server.dockerfile
+    depends_on:
+      - wishlist-db
+    ports:
+      - 127.0.0.1:8000:8000
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@wishlist-db/wishlist
+    networks:
+      - wishlist-network
+  wishlist-client:
+    container_name: wishlist-client
+    build:
+      context: ./
+      dockerfile: client.dockerfile
+    depends_on:
+      - wishlist-api
+    ports:
+      - 127.0.0.1:8001:80
+networks:
+  wishlist-network:
+volumes:
+  db:
+    driver: local

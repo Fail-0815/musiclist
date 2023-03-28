@@ -1,0 +1,6 @@
+.git
+db-data
+client/dist
+client/target
+server/target
+wishlib/target

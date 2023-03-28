@@ -1,0 +1,9 @@
+[submodule "wishlib"]
+	path = wishlib
+	url = https://github.com/Fail-0815/musiclist-lib.git
+[submodule "server"]
+	path = server
+	url = https://github.com/Fail-0815/musiclist-server.git
+[submodule "client"]
+	path = client
+	url = https://github.com/Fail-0815/musiclist-client.git
